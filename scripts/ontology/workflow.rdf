@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base="http://www.tao.lu/Ontologies/TAODelivery.rdf#"
+	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+>
+  <!-- Property -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowState">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[State]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[The resource state]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+    <tao:TAOGUIOrder><![CDATA[800]]></tao:TAOGUIOrder>
+  </rdf:Description>
+
+  <!--  Widget -->
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Test Runner Feature]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[allow a user to toggle test runner features per delivery]]></rdfs:comment>
+    <widget:identifier><![CDATA[deliveryTestRunnerFeature]]></widget:identifier>
+    <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Literal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidgetXhtmlRenderer">
+    <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+    <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget"/>
+    <widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+    <widget:implementation><![CDATA[oat\taoResourceWorkflow\helper\StateWidget]]></widget:implementation>
+  </rdf:Description>
+</rdf:RDF>

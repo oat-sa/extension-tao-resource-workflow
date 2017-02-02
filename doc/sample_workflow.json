@@ -1,0 +1,62 @@
+{
+  "initial" : {
+    "http://www.tao.lu/Ontologies/TAOItem.rdf#Item" : "concept"
+  },
+  "states" : {
+    "concept" : {
+      "label" : "Concept",
+      "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
+      "write" : ["http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor"],
+      "transitions" : [
+        {
+          "label" : "Begin work",
+          "state" : "authoring"
+        }
+      ]
+    },
+    "authoring" : {
+      "label" : "Authoring",
+      "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
+      "write" : ["http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor"],
+      "transitions" : [
+        {
+          "label" : "Submit for review",
+          "state" : "review"
+        }
+      ]
+    },
+    "review" : {
+      "label" : "Concept",
+      "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
+      "write" : ["http://www.tao.lu/Ontologies/TAO.rdf#Reviewer","http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor"],
+      "transitions" : [
+        {
+          "label" : "Approve",
+          "state" : "approved"
+        },
+        {
+          "label" : "Reject",
+          "state" : "authoring"
+        }
+      ]
+    },
+    "approved" : {
+      "label" : "Concept",
+      "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
+      "write" : ["http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole","http://www.tao.lu/Ontologies/TAO.rdf#Reviewer"],
+      "transitions" : [
+        {
+          "label" : "Use",
+          "state" : "inuse"
+        }
+      ]
+    },
+    "inuse" : {
+      "label" : "In Use",
+      "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
+      "write" : ["http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole"],
+      "transitions" : [
+      ]
+    }
+  }
+}
