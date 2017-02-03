@@ -20,7 +20,6 @@ namespace oat\taoResourceWorkflow\model;
 
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\user\User;
-use core_kernel_classes_Class;
 use oat\oatbox\service\ConfigurableService;
 
 /**

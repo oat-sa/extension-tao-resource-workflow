@@ -21,10 +21,6 @@ namespace oat\taoResourceWorkflow\model\wfmodel;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
-use oat\taoResourceWorkflow\model\ResourceWorkflowService;
-use oat\taoResourceWorkflow\model\ResourceState;
-use oat\tao\model\user\TaoRoles;
-use function GuzzleHttp\json_decode;
 use oat\taoResourceWorkflow\model\WorkflowModel;
 /**
  * A simple workflow, generated based on a json file.
