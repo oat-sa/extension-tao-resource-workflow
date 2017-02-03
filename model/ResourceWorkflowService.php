@@ -23,7 +23,8 @@ use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\data\event\ResourceCreated;
 /**
- * Service to manage resource workflows
+ * Service to manage the association of states
+ * to resources and their transitions
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
