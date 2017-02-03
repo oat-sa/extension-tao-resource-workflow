@@ -19,7 +19,7 @@
 use oat\tao\model\user\TaoRoles;
 use oat\taoResourceWorkflow\controller\Transition;
 use oat\taoResourceWorkflow\scripts\install\SetupWorkflow;
-
+use oat\taoResourceWorkflow\scripts\update\Updater;
 /**
  * Generated using taoDevTools 2.18.0
  */
@@ -28,7 +28,7 @@ return array(
     'label' => 'Resource Workflow',
     'description' => 'Simple, resource/document based workflow allowing the transition between states',
     'license' => 'GPL-2.0',
-    'version' => '0.1',
+    'version' => '0.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=7.56.0'
@@ -46,6 +46,7 @@ return array(
     ),
     'uninstall' => array(
     ),
+    'update' => Updater::class,
     'routes' => array(
         '/taoResourceWorkflow' => 'oat\\taoResourceWorkflow\\controller'
     ),
