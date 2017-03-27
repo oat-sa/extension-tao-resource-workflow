@@ -26,7 +26,7 @@
       ]
     },
     "review" : {
-      "label" : "Concept",
+      "label" : "Review",
       "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
       "write" : ["http://www.tao.lu/Ontologies/TAO.rdf#Reviewer","http://www.tao.lu/Ontologies/TAOItem.rdf#ItemAuthor"],
       "transitions" : [
@@ -41,7 +41,7 @@
       ]
     },
     "approved" : {
-      "label" : "Concept",
+      "label" : "Approved",
       "read" : ["http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"],
       "write" : ["http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole","http://www.tao.lu/Ontologies/TAO.rdf#Reviewer"],
       "transitions" : [
