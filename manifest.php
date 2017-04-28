@@ -28,10 +28,10 @@ return array(
     'label' => 'Resource Workflow',
     'description' => 'Simple, resource/document based workflow allowing the transition between states',
     'license' => 'GPL-2.0',
-    'version' => '0.1.0',
+    'version' => '1.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=7.56.0'
+        'tao' => '>=9.0.0'
     ),
     'acl' => array(
         array('grant', TaoRoles::BACK_OFFICE, Transition::class),
@@ -56,8 +56,5 @@ return array(
 
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'taoResourceWorkflow/',
-
-        #BASE WWW required by JS
-        'BASE_WWW' => ROOT_URL.'taoResourceWorkflow/views/'
     )
 );
