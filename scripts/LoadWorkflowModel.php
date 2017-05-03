@@ -21,20 +21,17 @@
 
 namespace oat\taoResourceWorkflow\scripts;
 
-use oat\oatbox\extension\InstallAction;
-use oat\generis\model\data\event\ResourceCreated;
+use oat\oatbox\extension\AbstractAction;
 use oat\taoResourceWorkflow\model\wfmodel\JsonWorkflow;
 use oat\taoResourceWorkflow\model\WorkflowModel;
-use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 use oat\taoResourceWorkflow\model\PermissionProvider;
-use oat\generis\model\data\permission\PermissionManager;
 use \common_report_Report as Report;
 
 /**
  * Class RegisterEligibilityService
  * @package oat\taoProctoring\scripts\install
  */
-class LoadWorkflowModel extends InstallAction
+class LoadWorkflowModel extends AbstractAction
 {
     /**
      * @param $params
