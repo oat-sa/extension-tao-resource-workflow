@@ -25,7 +25,7 @@ use oat\oatbox\extension\InstallAction;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 use oat\taoResourceWorkflow\model\PermissionProvider;
-use oat\generis\model\data\permission\PermissionManager;
+use oat\generis\model\data\permission\PermissionInterface;
 
 /**
  * Setup permision provider and resource creation event
@@ -38,8 +38,7 @@ class SetupWorkflow extends InstallAction
     public function __invoke($params)
     {
         $this->registerEvent(ResourceCreated::class, [ResourceWorkflowService::SERVICE_ID, 'onCreate']);
-        $impl = new PermissionProvider();
-        PermissionManager::setPermissionModel($impl);
+        $this->registerService(PermissionInterface::SERVICE_ID, new PermissionProvider());
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
     }
