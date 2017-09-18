@@ -42,7 +42,7 @@ class PermissionProvider extends ConfigurableService
     public function getPermissions(User $user, array $resourceIds) {
 
         $roleIds = $user->getRoles();
-        if (in_array(TaoOntology::INSTANCE_ROLE_SYSADMIN, $roleIds)) {
+        if (in_array(TaoOntology::PROPERTY_INSTANCE_ROLE_SYSADMIN, $roleIds)) {
             $permissions = array();
             foreach ($resourceIds as $id) {
                 $permissions[$id] = $this->getSupportedRights();
