@@ -28,6 +28,6 @@ class Updater extends \common_ext_ExtensionUpdater
      * Resource Workflow updater
      */
     public function update($initialVersion) {
-		$this->skip('0.1','1.0.1');
+		$this->skip('0.1','1.1.0');
 	}
 }
