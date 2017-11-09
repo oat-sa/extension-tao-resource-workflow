@@ -21,6 +21,11 @@
 
 namespace oat\taoResourceWorkflow\scripts\update;
 
+use oat\generis\model\data\permission\implementation\FreeAccess;
+use oat\generis\model\data\permission\implementation\IntersectionUnionSupported;
+use oat\generis\model\data\permission\implementation\NoAccess;
+use oat\taoResourceWorkflow\model\PermissionProvider;
+
 class Updater extends \common_ext_ExtensionUpdater
 {
 
@@ -29,5 +34,20 @@ class Updater extends \common_ext_ExtensionUpdater
      */
     public function update($initialVersion) {
 		$this->skip('0.1','1.1.0');
+
+        if ($this->isVersion( '1.0.1')) {
+
+            $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
+            if(!$currentService instanceof PermissionProvider && !$currentService instanceof FreeAccess && !$currentService instanceof NoAccess){
+                if($currentService instanceof IntersectionUnionSupported){
+                    $toRegister = $currentService->add(new PermissionProvider());
+                } else {
+                    $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, new PermissionProvider()]]);
+                }
+                $this->getServiceManager()->register(PermissionProvider::SERVICE_ID, $toRegister);
+            }
+
+            $this->setVersion('1.1.0');
+        }
 	}
 }

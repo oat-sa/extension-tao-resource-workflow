@@ -43,13 +43,18 @@ class SetupWorkflow extends InstallAction
         $this->registerEvent(ResourceCreated::class, [ResourceWorkflowService::SERVICE_ID, 'onCreate']);
 
         $impl = new PermissionProvider();
+        $toRegister = $impl;
 
         $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
         if(!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess){
-            $impl = new IntersectionUnionSupported(['inner' => [$currentService, new PermissionProvider()]]);
+            if($currentService instanceof IntersectionUnionSupported){
+                $toRegister = $currentService->add($impl);
+            } else {
+                $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, $impl]]);
+            }
         }
 
-        $this->registerService(PermissionInterface::SERVICE_ID, $impl);
+        $this->registerService(PermissionInterface::SERVICE_ID, $toRegister);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
     }
