@@ -33,7 +33,7 @@ class Updater extends \common_ext_ExtensionUpdater
      * Resource Workflow updater
      */
     public function update($initialVersion) {
-		$this->skip('0.1','1.1.0');
+		$this->skip('0.1','1.0.1');
 
         if ($this->isVersion( '1.0.1')) {
 
