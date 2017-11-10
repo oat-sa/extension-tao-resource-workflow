@@ -21,6 +21,9 @@
 
 namespace oat\taoResourceWorkflow\scripts\install;
 
+use oat\generis\model\data\permission\implementation\FreeAccess;
+use oat\generis\model\data\permission\implementation\IntersectionUnionSupported;
+use oat\generis\model\data\permission\implementation\NoAccess;
 use oat\oatbox\extension\InstallAction;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
@@ -38,7 +41,20 @@ class SetupWorkflow extends InstallAction
     public function __invoke($params)
     {
         $this->registerEvent(ResourceCreated::class, [ResourceWorkflowService::SERVICE_ID, 'onCreate']);
-        $this->registerService(PermissionInterface::SERVICE_ID, new PermissionProvider());
+
+        $impl = new PermissionProvider();
+        $toRegister = $impl;
+
+        $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
+        if(!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess){
+            if($currentService instanceof IntersectionUnionSupported){
+                $toRegister = $currentService->add($impl);
+            } else {
+                $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, $impl]]);
+            }
+        }
+
+        $this->registerService(PermissionInterface::SERVICE_ID, $toRegister);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
     }

@@ -24,12 +24,11 @@ namespace oat\taoResourceWorkflow\scripts;
 use oat\oatbox\extension\AbstractAction;
 use oat\taoResourceWorkflow\model\wfmodel\JsonWorkflow;
 use oat\taoResourceWorkflow\model\WorkflowModel;
-use oat\taoResourceWorkflow\model\PermissionProvider;
 use \common_report_Report as Report;
 
 /**
  * Class RegisterEligibilityService
- * @package oat\taoProctoring\scripts\install
+ * @package oat\taoResourceWorkflow\scripts
  */
 class LoadWorkflowModel extends AbstractAction
 {
@@ -50,7 +49,7 @@ class LoadWorkflowModel extends AbstractAction
             return new Report(Report::TYPE_ERROR, __('%s is not a valid JSON file', $file));
         }
 
-        $this->registerService(WorkflowModel::SERVICE_ID, JsonWorkflow::fromJson($json));
+        $this->getServiceManager()->register(WorkflowModel::SERVICE_ID, JsonWorkflow::fromJson($json));
         
         return new Report(Report::TYPE_SUCCESS, __('Successfully loaded model'));
     }
