@@ -28,10 +28,11 @@ return array(
     'label' => 'Resource Workflow',
     'description' => 'Simple, resource/document based workflow allowing the transition between states',
     'license' => 'GPL-2.0',
-    'version' => '1.0.2',
+    'version' => '1.2.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=9.0.0'
+        'tao' => '>=14.3.1',
+        'generis' => '>=5.9.0'
     ),
     'acl' => array(
         array('grant', TaoRoles::BACK_OFFICE, Transition::class),
