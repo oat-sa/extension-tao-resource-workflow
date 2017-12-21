@@ -31,8 +31,8 @@ return array(
     'version' => '1.2.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=14.3.1',
-        'generis' => '>=5.9.0'
+        'tao' => '>=12.21.4',
+        'generis' => '>=5.10.0'
     ),
     'acl' => array(
         array('grant', TaoRoles::BACK_OFFICE, Transition::class),
