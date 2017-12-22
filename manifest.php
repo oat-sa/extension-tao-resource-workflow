@@ -32,7 +32,7 @@ return array(
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=12.21.4',
-        'generis' => '>=5.10.0'
+        'generis' => '>=5.9.0'
     ),
     'acl' => array(
         array('grant', TaoRoles::BACK_OFFICE, Transition::class),
