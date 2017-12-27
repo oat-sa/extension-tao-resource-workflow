@@ -21,7 +21,7 @@ namespace oat\taoResourceWorkflow\model;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\user\TaoRoles;
 
 /**
  * Simple permissible Permission model
@@ -42,7 +42,7 @@ class PermissionProvider extends ConfigurableService
     public function getPermissions(User $user, array $resourceIds) {
 
         $roleIds = $user->getRoles();
-        if (in_array(TaoOntology::PROPERTY_INSTANCE_ROLE_SYSADMIN, $roleIds)) {
+        if (in_array(TaoRoles::SYSTEM_ADMINISTRATOR, $roleIds)) {
             $permissions = array();
             foreach ($resourceIds as $id) {
                 $permissions[$id] = $this->getSupportedRights();
