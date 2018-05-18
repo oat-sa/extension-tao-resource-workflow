@@ -13,10 +13,27 @@
     <rdfs:label xml:lang="en-US"><![CDATA[State]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The resource state]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget"/>
     <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
     <tao:TAOGUIOrder><![CDATA[800]]></tao:TAOGUIOrder>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Resource workflow state]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Resource workflow state]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WorkflowStateId">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[State id]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Workflow state identifier]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+    <tao:TAOGUIOrder><![CDATA[810]]></tao:TAOGUIOrder>
   </rdf:Description>
 
   <!--  Widget -->

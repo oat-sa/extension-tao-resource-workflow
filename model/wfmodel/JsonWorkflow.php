@@ -65,7 +65,15 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
         $states = $this->getOption(self::OPTION_STATES);
         return isset($states[$stateId]) ? $states[$stateId] : null;
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public function getStates()
+    {
+        return $this->getOption(self::OPTION_STATES);
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoResourceWorkflow\model\WorkflowModel::getTransition()
