@@ -20,13 +20,17 @@ namespace oat\taoResourceWorkflow\helper;
 
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 use oat\oatbox\service\ServiceManager;
-use oat\taoResourceWorkflow\model\WorkflowModel;
+use oat\generis\model\OntologyAwareTrait;
+use oat\taoResourceWorkflow\model\ResourceWorkflowService;
+
 /**
  * Widget to represent the current state
  */
 class StateWidget extends \tao_helpers_form_FormElement
 {
     use XhtmlRenderingTrait;
+    use OntologyAwareTrait;
+
     /**
      * A reference to the Widget Definition URI.
      *
@@ -38,14 +42,23 @@ class StateWidget extends \tao_helpers_form_FormElement
      * Render the Widget of the state and transition
      *
      * @return string
+     * @throws \core_kernel_persistence_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     public function render()
     {
-        $model = $this->getWfModel();
-        $stateId = $this->getValue() instanceof \core_kernel_classes_Resource ? $this->getValue()->getUri() : (string)$this->getValue();
-        $state = $model->getState($stateId);
+        $val = $this->getValue();
+        $stateResource = null;
+        if ($val instanceof \core_kernel_classes_Resource) {
+            $stateResource = $this->getValue();
+        } else if ($val !== null && \common_Utils::isUri($val)) {
+            $stateResource =  $this->getResource($val);
+        }
         $returnValue = '';
-        if (!is_null($state)) {
+        if (!is_null($stateResource)) {
+            /** @var ResourceWorkflowService $resourceWorkflowService */
+            $resourceWorkflowService = ServiceManager::getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
+            $state = $resourceWorkflowService->getStateByStateResource($stateResource);
             $returnValue = $this->renderLabel();
             $returnValue .= "<span id='".$this->getName()."' ";
             $returnValue .= $this->renderAttributes();
@@ -85,10 +98,5 @@ class StateWidget extends \tao_helpers_form_FormElement
     public function getValue()
     {
         return $this->getRawValue();
-    }
-
-    private function getWfModel()
-    {
-        return ServiceManager::getServiceManager()->get(WorkflowModel::SERVICE_ID);
     }
 }
