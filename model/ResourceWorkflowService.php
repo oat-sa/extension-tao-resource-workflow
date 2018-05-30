@@ -44,7 +44,13 @@ class ResourceWorkflowService extends ConfigurableService
 
     protected $stateUris = [];
 
-    public function getStates($resourceIds)
+    /**
+     * @param array $resourceIds
+     * @return array
+     * @throws \core_kernel_persistence_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function getStates(array $resourceIds)
     {
         $states = array();
         foreach ($resourceIds as $resourceId) {
@@ -106,7 +112,7 @@ class ResourceWorkflowService extends ConfigurableService
                     OntologyRdfs::RDFS_LABEL => $state->getLabel()
                 ]);
             } else {
-                $stateResource = current($stateResources);
+                $stateResource = reset($stateResources);
                 $stateResource->setLabel($state->getLabel());
             }
             $resourcesWithLegacyStateId = $taoObjectClass->searchInstances([
@@ -146,7 +152,7 @@ class ResourceWorkflowService extends ConfigurableService
             if (empty($stateResources)) {
                 $this->stateUris[$state->getId()] = $state->getId();
             } else {
-                $this->stateUris[$state->getId()] = current($stateResources)->getUri();
+                $this->stateUris[$state->getId()] = reset($stateResources)->getUri();
             }
         }
         return $this->stateUris[$state->getId()];

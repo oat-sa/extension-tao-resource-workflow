@@ -20,7 +20,6 @@ namespace oat\taoResourceWorkflow\helper;
 
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 use oat\oatbox\service\ServiceManager;
-use oat\taoResourceWorkflow\model\WorkflowModel;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 
@@ -43,6 +42,8 @@ class StateWidget extends \tao_helpers_form_FormElement
      * Render the Widget of the state and transition
      *
      * @return string
+     * @throws \core_kernel_persistence_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
      */
     public function render()
     {
@@ -55,6 +56,7 @@ class StateWidget extends \tao_helpers_form_FormElement
         }
         $returnValue = '';
         if (!is_null($stateResource)) {
+            /** @var ResourceWorkflowService $resourceWorkflowService */
             $resourceWorkflowService = ServiceManager::getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
             $state = $resourceWorkflowService->getStateByStateResource($stateResource);
             $returnValue = $this->renderLabel();
