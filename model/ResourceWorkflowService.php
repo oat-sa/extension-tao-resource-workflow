@@ -22,6 +22,9 @@ namespace oat\taoResourceWorkflow\model;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\data\event\ResourceCreated;
+use oat\generis\model\OntologyRdfs;
+use oat\tao\model\TaoOntology;
+
 /**
  * Service to manage the association of states
  * to resources and their transitions
@@ -36,22 +39,41 @@ class ResourceWorkflowService extends ConfigurableService
     const SERVICE_ID = 'taoResourceWorkflow/workflow';
     
     const PROPERTY_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowState';
-    
-    public function getStates($resourceIds)
+    const PROPERTY_STATE_ID = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowStateId';
+    const CLASS_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates';
+
+    protected $stateUris = [];
+
+    /**
+     * @param array $resourceIds
+     * @return array
+     * @throws \core_kernel_persistence_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function getStates(array $resourceIds)
     {
         $states = array();
         foreach ($resourceIds as $resourceId) {
             $resource = $this->getResource($resourceId);
-            $stateId = $resource->getOnePropertyValue($this->getProperty(self::PROPERTY_STATE));
-            $states[$resourceId] = is_null($stateId) ? null
-                : $stateId instanceof \core_kernel_classes_Resource ? $stateId->getUri() : (string) $stateId;
+            $state = $resource->getOnePropertyValue($this->getProperty(self::PROPERTY_STATE));
+            if ($state === null) {
+                $states[$resourceId] = null;
+                continue;
+            }
+            if ($state instanceof \core_kernel_classes_Resource) {
+                $state = $this->getStateByStateResource($state);
+            } else {
+                $state = $this->getWfModel()->getState((string) $state);
+            }
+            $states[$resourceId] = $state->getId();
         }
         return $states;
     }
     
     public function setState(\core_kernel_classes_Resource $resource, $stateId)
     {
-        return $resource->editPropertyValues($this->getProperty(self::PROPERTY_STATE), $stateId);
+        $state = $this->getWfModel()->getState($stateId);
+        return $resource->editPropertyValues($this->getProperty(self::PROPERTY_STATE), $this->getStateUri($state));
     }
 
     public function executeTransition($resource, $transitionId)
@@ -70,10 +92,76 @@ class ResourceWorkflowService extends ConfigurableService
         $resource = $event->getResource();
         $state = $this->getWfModel()->getInitialState($resource);
         if (!is_null($state)) {
-            $resource->setPropertyValue($this->getProperty(ResourceWorkflowService::PROPERTY_STATE), $state->getId());
+            $resource->setPropertyValue($this->getProperty(ResourceWorkflowService::PROPERTY_STATE), $this->getStateUri($state));
         }
     }
 
+    public function updateOntology()
+    {
+        $states = $this->getWfModel()->getStates();
+        $statesClass = $this->getClass(self::CLASS_STATE);
+        $taoObjectClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
+        $resourceStateProp = $this->getProperty(self::PROPERTY_STATE);
+        foreach ($states as $state) {
+            $stateResources = $statesClass->searchInstances([
+                self::PROPERTY_STATE_ID => $state->getId()
+            ], ['like' => false, 'recursive' => true]);
+            if (empty($stateResources)) {
+                $stateResource = $statesClass->createInstanceWithProperties([
+                    self::PROPERTY_STATE_ID => $state->getId(),
+                    OntologyRdfs::RDFS_LABEL => $state->getLabel()
+                ]);
+            } else {
+                $stateResource = reset($stateResources);
+                $stateResource->setLabel($state->getLabel());
+            }
+            $resourcesWithLegacyStateId = $taoObjectClass->searchInstances([
+                self::PROPERTY_STATE => $state->getId(),
+            ], ['like' => false, 'recursive' => true]);
+            foreach ($resourcesWithLegacyStateId as $resourceWithLegacyStateId) {
+                $resourceWithLegacyStateId->editPropertyValues($resourceStateProp, $stateResource->getUri());
+            }
+        }
+    }
+
+    /**
+     * @param \core_kernel_classes_Resource $stateResource
+     * @return WorkflowState
+     * @throws \core_kernel_persistence_Exception
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function getStateByStateResource(\core_kernel_classes_Resource $stateResource)
+    {
+        $stateId = $stateResource->getOnePropertyValue($this->getProperty(self::PROPERTY_STATE_ID));
+        if ($stateId && $stateId instanceof \core_kernel_classes_Literal) {
+            $stateId = (string) $stateId->literal;
+        }
+        return $this->getWfModel()->getState($stateId);
+    }
+
+    /**
+     * @param WorkflowState $state
+     * @return string
+     */
+    protected function getStateUri(WorkflowState $state)
+    {
+        if (!isset($this->stateUris[$state->getId()])) {
+            $stateResources = $this->getClass(self::CLASS_STATE)->searchInstances([
+                self::PROPERTY_STATE_ID => $state->getId()
+            ], ['like' => false, 'recursive' => true]);
+            if (empty($stateResources)) {
+                $this->stateUris[$state->getId()] = $state->getId();
+            } else {
+                $this->stateUris[$state->getId()] = reset($stateResources)->getUri();
+            }
+        }
+        return $this->stateUris[$state->getId()];
+    }
+
+    /**
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     * @return WorkflowModel
+     */
     protected function getWfModel()
     {
         return $this->getServiceManager()->get(WorkflowModel::SERVICE_ID);

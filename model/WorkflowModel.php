@@ -32,6 +32,13 @@ interface WorkflowModel
     public function getState($stateId);
 
     /**
+     * Get all the possible states
+     *
+     * @return WorkflowState[]
+     */
+    public function getStates();
+
+    /**
      * Returns the transition with the given id
      *
      * @param string $transitionId

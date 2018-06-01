@@ -25,6 +25,7 @@ use oat\oatbox\extension\AbstractAction;
 use oat\taoResourceWorkflow\model\wfmodel\JsonWorkflow;
 use oat\taoResourceWorkflow\model\WorkflowModel;
 use \common_report_Report as Report;
+use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 
 /**
  * Class RegisterEligibilityService
@@ -50,7 +51,8 @@ class LoadWorkflowModel extends AbstractAction
         }
 
         $this->getServiceManager()->register(WorkflowModel::SERVICE_ID, JsonWorkflow::fromJson($json));
-        
+        $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID)->updateOntology();
+
         return new Report(Report::TYPE_SUCCESS, __('Successfully loaded model'));
     }
 }

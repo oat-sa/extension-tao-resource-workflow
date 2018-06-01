@@ -25,6 +25,8 @@ use oat\generis\model\data\permission\implementation\FreeAccess;
 use oat\generis\model\data\permission\implementation\IntersectionUnionSupported;
 use oat\generis\model\data\permission\implementation\NoAccess;
 use oat\taoResourceWorkflow\model\PermissionProvider;
+use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -52,5 +54,11 @@ class Updater extends \common_ext_ExtensionUpdater
       }
       
       $this->skip('1.1.0','1.2.1');
-	  }
+
+        if ($this->isVersion('1.2.1')) {
+            OntologyUpdater::syncModels();
+            $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID)->updateOntology();
+            $this->setVersion('1.3.0');
+        }
+    }
 }
