@@ -56,7 +56,7 @@ class ResourceWorkflowService extends ConfigurableService
         foreach ($resourceIds as $resourceId) {
             $resource = $this->getResource($resourceId);
             $state = $resource->getOnePropertyValue($this->getProperty(self::PROPERTY_STATE));
-            if ($state === null || $state instanceof \core_kernel_classes_Literal) {
+            if ($state === null) {
                 $states[$resourceId] = null;
                 continue;
             }
@@ -65,8 +65,13 @@ class ResourceWorkflowService extends ConfigurableService
             } else {
                 $state = $this->getWfModel()->getState((string) $state);
             }
-            $states[$resourceId] = $state->getId();
+
+            $states[$resourceId] = $state instanceof WorkflowState
+                ? $state->getId()
+                : null
+            ;
         }
+
         return $states;
     }
     
