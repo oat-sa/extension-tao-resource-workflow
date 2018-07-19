@@ -56,7 +56,7 @@ class ResourceWorkflowService extends ConfigurableService
         foreach ($resourceIds as $resourceId) {
             $resource = $this->getResource($resourceId);
             $state = $resource->getOnePropertyValue($this->getProperty(self::PROPERTY_STATE));
-            if ($state === null) {
+            if ($state === null || $state instanceof \core_kernel_classes_Literal) {
                 $states[$resourceId] = null;
                 continue;
             }
