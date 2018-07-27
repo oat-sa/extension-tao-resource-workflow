@@ -65,8 +65,13 @@ class ResourceWorkflowService extends ConfigurableService
             } else {
                 $state = $this->getWfModel()->getState((string) $state);
             }
-            $states[$resourceId] = $state->getId();
+
+            $states[$resourceId] = $state instanceof WorkflowState
+                ? $state->getId()
+                : null
+            ;
         }
+
         return $states;
     }
     

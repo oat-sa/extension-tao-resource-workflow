@@ -55,10 +55,12 @@ class Updater extends \common_ext_ExtensionUpdater
       
       $this->skip('1.1.0','1.2.1');
 
-        if ($this->isVersion('1.2.1')) {
-            OntologyUpdater::syncModels();
-            $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID)->updateOntology();
-            $this->setVersion('1.3.0');
-        }
+      if ($this->isVersion('1.2.1')) {
+          OntologyUpdater::syncModels();
+          $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID)->updateOntology();
+          $this->setVersion('1.3.0');
+      }
+
+      $this->skip('1.3.0', '1.3.1');
     }
 }
