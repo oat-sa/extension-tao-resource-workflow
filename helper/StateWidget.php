@@ -68,7 +68,7 @@ class StateWidget extends \tao_helpers_form_FormElement
                 $returnValue .= "<a id='".$id."' class='btn-button small' data-href='".$transition->getUrl()."'";
                 $returnValue .= '>' . _dh($transition->getLabel()) . '</a>';
                 $returnValue .= "<script type=\"text/javascript\">
-                    require(['jquery','jqueryui'], function($){
+                    require(['jquery'], function($){
                         $(\"#".$id."\").on('click',function(event) {
                         event.preventDefault();
                         $.ajax({
