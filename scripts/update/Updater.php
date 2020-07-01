@@ -28,6 +28,9 @@ use oat\taoResourceWorkflow\model\PermissionProvider;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 
+/**
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+ */
 class Updater extends \common_ext_ExtensionUpdater
 {
 
@@ -62,5 +65,10 @@ class Updater extends \common_ext_ExtensionUpdater
       }
 
       $this->skip('1.3.0', '1.3.3');
+        
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }
