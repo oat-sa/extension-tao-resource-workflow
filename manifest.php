@@ -28,10 +28,10 @@ return array(
     'label' => 'Resource Workflow',
     'description' => 'Simple, resource/document based workflow allowing the transition between states',
     'license' => 'GPL-2.0',
-    'version' => '1.4.0',
+    'version' => '2.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=12.21.4',
+        'tao' => '>=45.0.0',
         'generis' => '>=5.9.0'
     ),
     'acl' => array(
@@ -53,7 +53,7 @@ return array(
     ),
     'constants' => array(
         # views directory
-        "DIR_VIEWS" => dirname(__FILE__).DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
+        "DIR_VIEWS" => __DIR__ .DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
 
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'taoResourceWorkflow/',
