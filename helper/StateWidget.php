@@ -18,25 +18,23 @@
  */
 namespace oat\taoResourceWorkflow\helper;
 
+use common_Utils;
+use core_kernel_classes_Resource;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
+use tao_helpers_form_FormElement;
 
 /**
  * Widget to represent the current state
  */
-class StateWidget extends \tao_helpers_form_FormElement
+class StateWidget extends tao_helpers_form_FormElement
 {
     use XhtmlRenderingTrait;
     use OntologyAwareTrait;
 
-    /**
-     * A reference to the Widget Definition URI.
-     *
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget';
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#StateWidget';
 
     /**
      * Render the Widget of the state and transition
@@ -49,9 +47,9 @@ class StateWidget extends \tao_helpers_form_FormElement
     {
         $val = $this->getValue();
         $stateResource = null;
-        if ($val instanceof \core_kernel_classes_Resource) {
+        if ($val instanceof core_kernel_classes_Resource) {
             $stateResource = $this->getValue();
-        } else if ($val !== null && \common_Utils::isUri($val)) {
+        } else if ($val !== null && common_Utils::isUri($val)) {
             $stateResource =  $this->getResource($val);
         }
         $returnValue = '';
@@ -81,7 +79,7 @@ class StateWidget extends \tao_helpers_form_FormElement
                                   $('.tree').trigger('refresh.taotree');
                                 } else {
                                   // error handling
-                                };
+                                }
                             }
                         });
                      });
