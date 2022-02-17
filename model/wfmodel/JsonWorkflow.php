@@ -1,27 +1,32 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- * 
+ *
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA
+ *
  */
+
+declare(strict_types=1);
+
 namespace oat\taoResourceWorkflow\model\wfmodel;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\WorkflowModel;
+
 /**
  * A simple workflow, generated based on a json file.
  *
@@ -44,7 +49,7 @@ use oat\taoResourceWorkflow\model\WorkflowModel;
  *     }
  *   }
  * }
- * 
+ *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  */
@@ -52,9 +57,11 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
 {
     use OntologyAwareTrait;
 
-    const OPTION_STATES = 'states';
+    public const OPTION_STATES = 'states';
+    public const OPTION_INITIAL_STATE = 'initial';
+    public const OPTION_LANGUAGE = 'language';
 
-    const OPTION_INITIAL_STATE = 'initial';
+    public const DEFAULT_IMPORT_LANG = 'en-US';
 
     /**
      * (non-PHPdoc)
@@ -74,6 +81,11 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
         return $this->hasOption(self::OPTION_STATES) ? $this->getOption(self::OPTION_STATES) : [];
     }
 
+    public function getLanguage(): ?string
+    {
+        return $this->getOption(self::OPTION_LANGUAGE) ?? self::DEFAULT_IMPORT_LANG;
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\taoResourceWorkflow\model\WorkflowModel::getTransition()
@@ -88,7 +100,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
             }
         }
     }
-    
+
     /**
      * Initial state is determined by comparing the instance to a list of classes
      * and it if is an instance of one of them, it returns the associated state
@@ -104,10 +116,10 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
         }
         return null;
     }
-    
+
     /**
      * Build a workflow model from a json representation
-     * 
+     *
      * @param string $json
      * @return JsonWorkflow
      */
@@ -128,9 +140,16 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
             $state = new StateObject($id, $stateModel->label, $stateModel->read, $stateModel->write, $transitions);
             $states[$id] = $state;
         }
-        return new self([
+
+        $options = [
             self::OPTION_STATES => $states,
-            self::OPTION_INITIAL_STATE => $initial
-        ]);
+            self::OPTION_INITIAL_STATE => $initial,
+        ];
+
+        if (isset($jsonObject->language)) {
+            $options[self::OPTION_LANGUAGE] = $jsonObject->language;
+        }
+
+        return new self($options);
     }
 }

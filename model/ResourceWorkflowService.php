@@ -1,21 +1,21 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- * 
+ *
  */
 namespace oat\taoResourceWorkflow\model;
 
@@ -35,12 +35,12 @@ use oat\tao\model\TaoOntology;
 class ResourceWorkflowService extends ConfigurableService
 {
     use OntologyAwareTrait;
-    
-    const SERVICE_ID = 'taoResourceWorkflow/workflow';
-    
-    const PROPERTY_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowState';
-    const PROPERTY_STATE_ID = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowStateId';
-    const CLASS_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates';
+
+    public const SERVICE_ID = 'taoResourceWorkflow/workflow';
+
+    public const PROPERTY_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowState';
+    public const PROPERTY_STATE_ID = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowStateId';
+    public const CLASS_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates';
 
     protected $stateUris = [];
 
@@ -74,7 +74,7 @@ class ResourceWorkflowService extends ConfigurableService
 
         return $states;
     }
-    
+
     public function setState(\core_kernel_classes_Resource $resource, $stateId)
     {
         $state = $this->getWfModel()->getState($stateId);
@@ -91,7 +91,7 @@ class ResourceWorkflowService extends ConfigurableService
         }
         return $success;
     }
-    
+
     public function onCreate(ResourceCreated $event)
     {
         $resource = $event->getResource();
@@ -101,25 +101,31 @@ class ResourceWorkflowService extends ConfigurableService
         }
     }
 
-    public function updateOntology()
+    public function updateOntology(): void
     {
         $states = $this->getWfModel()->getStates();
         $statesClass = $this->getClass(self::CLASS_STATE);
         $taoObjectClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
         $resourceStateProp = $this->getProperty(self::PROPERTY_STATE);
+        $language = $this->getWfModel()->getLanguage();
+
         foreach ($states as $state) {
             $stateResources = $statesClass->searchInstances([
                 self::PROPERTY_STATE_ID => $state->getId()
             ], ['like' => false, 'recursive' => true]);
+
             if (empty($stateResources)) {
                 $stateResource = $statesClass->createInstanceWithProperties([
                     self::PROPERTY_STATE_ID => $state->getId(),
-                    OntologyRdfs::RDFS_LABEL => $state->getLabel()
                 ]);
             } else {
                 $stateResource = reset($stateResources);
-                $stateResource->setLabel($state->getLabel());
             }
+
+            $labelProperty = $this->getProperty(OntologyRdfs::RDFS_LABEL);
+            $stateResource->removePropertyValueByLg($labelProperty, $language);
+            $stateResource->setPropertyValueByLg($labelProperty, $state->getLabel(), $language);
+
             $resourcesWithLegacyStateId = $taoObjectClass->searchInstances([
                 self::PROPERTY_STATE => $state->getId(),
             ], ['like' => false, 'recursive' => true]);
