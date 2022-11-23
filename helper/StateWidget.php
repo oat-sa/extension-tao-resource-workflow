@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA
  */
 namespace oat\taoResourceWorkflow\helper;
 
@@ -24,6 +24,9 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
+use oat\taoResourceWorkflow\model\wfmodel\JsonWorkflow;
+use oat\taoResourceWorkflow\model\wfmodel\StateObject;
+use oat\taoResourceWorkflow\model\WorkflowModel;
 use tao_helpers_form_FormElement;
 
 /**
@@ -53,10 +56,10 @@ class StateWidget extends tao_helpers_form_FormElement
             $stateResource =  $this->getResource($val);
         }
         $returnValue = '';
+
         if (!is_null($stateResource)) {
-            /** @var ResourceWorkflowService $resourceWorkflowService */
-            $resourceWorkflowService = ServiceManager::getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
-            $state = $resourceWorkflowService->getStateByStateResource($stateResource);
+            $state = $this->getResourceWorkflowService()->getStateByStateResource($stateResource)
+                ?? $this->getInitialStateForResource();
             $returnValue = $this->renderLabel();
             $returnValue .= "<span id='".$this->getName()."' ";
             $returnValue .= $this->renderAttributes();
@@ -96,5 +99,25 @@ class StateWidget extends tao_helpers_form_FormElement
     public function getValue()
     {
         return $this->getRawValue();
+    }
+
+    private function getResourceWorkflowService(): ResourceWorkflowService
+    {
+        return ServiceManager::getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
+    }
+
+    private function getInitialStateForResource(): StateObject
+    {
+        $initialStateMap = $this->getWorkflowModel()
+            ->getOption(JsonWorkflow::OPTION_INITIAL_STATE);
+
+        $attr = $this->getAttributes();
+
+        return $this->getWorkflowModel()->getState($initialStateMap[$attr['resourceType']]);
+    }
+
+    private function getWorkflowModel(): WorkflowModel
+    {
+        return ServiceManager::getServiceManager()->get(WorkflowModel::SERVICE_ID);
     }
 }
