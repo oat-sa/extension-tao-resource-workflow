@@ -106,13 +106,27 @@ class StateWidget extends tao_helpers_form_FormElement
         return ServiceManager::getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
     }
 
+    /**
+     * @throws ElementDoesNotDefineResourceType
+     * @throws NoInitialStateForResource
+     */
     private function getInitialStateForResource(): StateObject
     {
         $initialStateMap = $this->getWorkflowModel()
             ->getOption(JsonWorkflow::OPTION_INITIAL_STATE);
 
         $attr = $this->getAttributes();
+        if (!isset($attr['resourceType'])) {
+            throw new ElementDoesNotDefineResourceType(
+                'Element does not define resourceType'
+            );
+        }
 
+        if (!isset($initialStateMap[$attr['resourceType']])) {
+            throw new NoInitialStateForResource(
+                sprintf('Resource %s does not have initial workflow state defined', $attr['resourceType'])
+            );
+        }
         return $this->getWorkflowModel()->getState($initialStateMap[$attr['resourceType']]);
     }
 
