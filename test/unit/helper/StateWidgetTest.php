@@ -36,11 +36,11 @@ use PHPUnit\Framework\TestCase;
 
 class StateWidgetTest extends TestCase
 {
-    public const ITEM_URI = 'ItemName';
-    public const RESOURCE_TYPE_KEY = 'resourceType';
-    public const RDF_ITEM_URI = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
+    private const ITEM_URI = 'ItemName';
+    private const RESOURCE_TYPE_KEY = 'resourceType';
+    private const RDF_ITEM_URI = 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
     private const STATE_LABEL_1 = 'label_1';
-    public const STATE_LABEL_2 = 'label_2';
+    private const STATE_LABEL_2 = 'label_2';
     private const TRANSITION_URL_1 = 'url_1';
     private const TRANSITION_URL_2 = 'url_2';
     private const TRANSITION_ID_1 = 'id_1';
@@ -55,16 +55,6 @@ class StateWidgetTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        if (!defined('ROOT_URL')) {
-            define('ROOT_URL', __DIR__ . '/../../../../../');
-        }
-        if (!defined('CONFIG_PATH')) {
-            define('CONFIG_PATH', ROOT_URL . 'config/');
-        }
-        if (!defined('EXTENSION_PATH')) {
-            define('EXTENSION_PATH', ROOT_URL);
-        }
 
         $this->workflowModelMock = $this->createMock(JsonWorkflow::class);
         ServiceManager::getServiceManager()->overload(
