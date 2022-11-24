@@ -107,7 +107,7 @@ class StateWidget extends tao_helpers_form_FormElement
     }
 
     /**
-     * @throws ElementDoesNotDefineResourceType
+     * @throws ElementDoesNotDefineResourceTypeException
      * @throws NoInitialStateForResource
      */
     private function getInitialStateForResource(): StateObject
@@ -117,7 +117,7 @@ class StateWidget extends tao_helpers_form_FormElement
 
         $attr = $this->getAttributes();
         if (!isset($attr['resourceType'])) {
-            throw new ElementDoesNotDefineResourceType(
+            throw new ElementDoesNotDefineResourceTypeException(
                 'Element does not define resourceType'
             );
         }
