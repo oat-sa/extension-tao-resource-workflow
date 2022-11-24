@@ -83,6 +83,7 @@ class StateWidgetTest extends TestCase
         $applicationServiceMock->method('getDefaultEncoding')->willReturn('UTF-8');
 
     }
+
     public function testRenderHappyPath(): void
     {
         $stateMock = $this->createMock(StateObject::class);
