@@ -116,7 +116,7 @@ class StateWidget extends tao_helpers_form_FormElement
 
     /**
      * @throws ElementDoesNotDefineResourceTypeException
-     * @throws NoInitialStateForResource
+     * @throws NoInitialStateForResourceException
      */
     private function getInitialStateForResource(): StateObject
     {
@@ -131,7 +131,7 @@ class StateWidget extends tao_helpers_form_FormElement
         }
 
         if (!isset($initialStateMap[$attr['resourceType']])) {
-            throw new NoInitialStateForResource(
+            throw new NoInitialStateForResourceException(
                 sprintf('Resource %s does not have initial workflow state defined', $attr['resourceType'])
             );
         }
