@@ -54,7 +54,7 @@ class StateWidget extends tao_helpers_form_FormElement
         $stateResource = null;
         if ($val instanceof core_kernel_classes_Resource) {
             $stateResource = $this->getValue();
-        } else if ($val !== null && common_Utils::isUri($val)) {
+        } elseif ($val !== null && common_Utils::isUri($val)) {
             $stateResource = $this->getResource($val);
         }
         $returnValue = '';
@@ -68,7 +68,13 @@ class StateWidget extends tao_helpers_form_FormElement
             $returnValue .= '>' . _dh($state->getLabel()) . '</span><br />';
             foreach ($state->getTransitions() as $transition) {
                 $id = $this->getName() . '_' . $transition->getId();
-                $returnValue .= "<a id='" . $id . "' class='btn-button small' data-href='" . $transition->getUrl() . "'";
+
+                $returnValue .= "<a id='"
+                    . $id
+                    . "' class='btn-button small' data-href='"
+                    . $transition->getUrl()
+                    . "'";
+
                 $returnValue .= '>' . _dh($transition->getLabel()) . '</a>';
                 $returnValue .= "<script type=\"text/javascript\">
                     require(['jquery'], function($){
