@@ -71,7 +71,17 @@ class StateObject implements WorkflowState, PhpSerializable
         }
         return $rights;
     }
-    
+
+    public function getReadRoles(): array
+    {
+        return $this->readRoles;
+    }
+
+    public function getWriteRoles(): array
+    {
+        return $this->writeRoles;
+    }
+
     public function __toPhpCode() {
         return 'new '.get_class($this).'('.
             \common_Utils::toPHPVariableString($this->id).','.
