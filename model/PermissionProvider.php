@@ -18,10 +18,12 @@
  */
 namespace oat\taoResourceWorkflow\model;
 
+use common_ext_ExtensionsManager;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\user\TaoRoles;
+use oat\taoResourceWorkflow\model\wfmodel\StateObject;
 
 /**
  * Simple permissible Permission model
@@ -35,6 +37,8 @@ use oat\tao\model\user\TaoRoles;
 class PermissionProvider extends ConfigurableService
     implements PermissionInterface
 {
+    public const OPTION_EXTENSIONS_WITH_ROLES = 'extensions_with_roles';
+
     /**
      * (non-PHPdoc)
      * @see \oat\generis\model\data\PermissionInterface::getPermissions()
@@ -68,7 +72,10 @@ class PermissionProvider extends ConfigurableService
         $stateCache = array();
         foreach ($stateIds as $stateId) {
             if (!empty($stateId)) {
-                $stateCache[$stateId] = $wfmodel->getState($stateId);
+                //$stateCache[$stateId] = $wfmodel->getState($stateId);
+                $state = $wfmodel->getState($stateId);
+                $stateWithRoles = $this->addAtomicRoles($state);
+                $stateCache[$stateId] = $stateWithRoles;
             }
         }
         return $stateCache;
@@ -87,5 +94,42 @@ class PermissionProvider extends ConfigurableService
      */
     public function getSupportedRights() {
         return array('WRITE', 'READ');
+    }
+
+    private function addAtomicRoles(StateObject $state): StateObject
+    {
+        $extensionManager = common_ext_ExtensionsManager::singleton();
+
+        $this->setOption(self::OPTION_EXTENSIONS_WITH_ROLES, [
+            'taoItems'
+        ]);
+
+        foreach ($this->getOption(self::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
+            $manifest = $extensionManager->getExtensionById($extensionName)->getManifest();
+            $includedRoles = $manifest->getIncludedRoles();
+            foreach ($includedRoles as $role => $atomicRoles) {
+                if (in_array($role, $state->getReadRoles())) {
+                    $state = new StateObject(
+                        $state->getId(),
+                        $state->getLabel(),
+                        array_merge($state->getReadRoles(), $atomicRoles),
+                        $state->getWriteRoles(),
+                        $state->getTransitions()
+                    );
+                }
+
+                if (in_array($role, $state->getWriteRoles())) {
+                    $state = new StateObject(
+                        $state->getId(),
+                        $state->getLabel(),
+                        $state->getReadRoles(),
+                        array_merge($state->getWriteRoles(), $atomicRoles),
+                        $state->getTransitions()
+                    );
+                }
+            }
+        }
+
+        return $state;
     }
 }
