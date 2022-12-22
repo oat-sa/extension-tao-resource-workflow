@@ -1,4 +1,5 @@
 <?php
+
 use oat\taoResourceWorkflow\model\PermissionProvider;
 
 return new PermissionProvider(
