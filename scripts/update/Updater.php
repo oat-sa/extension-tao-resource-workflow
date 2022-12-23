@@ -42,8 +42,11 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('1.0.1')) {
             $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
-            if (!$currentService instanceof PermissionProvider
-                && !$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
+            if (
+                !$currentService instanceof PermissionProvider
+                && !$currentService instanceof FreeAccess
+                && !$currentService instanceof NoAccess
+            ) {
                 if ($currentService instanceof IntersectionUnionSupported) {
                     $toRegister = $currentService->add(new PermissionProvider());
                 } else {
@@ -69,7 +72,7 @@ class Updater extends \common_ext_ExtensionUpdater
         
         //Updater files are deprecated. Please use migrations.
         //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
-
+        
         $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

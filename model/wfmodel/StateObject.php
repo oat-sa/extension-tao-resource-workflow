@@ -31,7 +31,7 @@ class StateObject implements WorkflowState, PhpSerializable
     private $readRoles;
     private $writeRoles;
     private $transitions;
-    
+
     public function __construct($id, $label, $readRoles = [], $writeRoles = [], $transitions = [])
     {
         $this->id = $id;
@@ -40,12 +40,12 @@ class StateObject implements WorkflowState, PhpSerializable
         $this->writeRoles = $writeRoles;
         $this->transitions = $transitions;
     }
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function getLabel()
     {
         return $this->label;
@@ -81,7 +81,7 @@ class StateObject implements WorkflowState, PhpSerializable
 
     public function __toPhpCode()
     {
-        return 'new '.get_class($this) . '(' .
+        return 'new ' . get_class($this) . '(' .
             \common_Utils::toPHPVariableString($this->id) . ',' .
             \common_Utils::toPHPVariableString($this->label) . ',' .
             \common_Utils::toPHPVariableString($this->readRoles) . ',' .

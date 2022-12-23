@@ -26,46 +26,44 @@ use oat\taoResourceWorkflow\model\WorkflowTransition;
 class TransitionObject implements WorkflowTransition, PhpSerializable
 {
     private $id;
-    
     private $label;
-    
     private $destination;
-    
+
     public function __construct($id, $label, $destination)
     {
         $this->id = $id;
         $this->label = $label;
         $this->destination = $destination;
     }
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function getLabel()
     {
         return $this->label;
     }
-    
+
     public function getUrl()
     {
         return _url('execute', 'Transition', 'taoResourceWorkflow', ['transition' => $this->id]);
     }
-    
+
     public function isAllowedOn(\core_kernel_classes_Resource $resource)
     {
         return true;
     }
-    
+
     public function getDestinationId()
     {
         return $this->destination;
     }
-    
+
     public function __toPhpCode()
     {
-        return 'new '.get_class($this) . '(' .
+        return 'new ' . get_class($this) . '(' .
             \common_Utils::toPHPVariableString($this->id) . ',' .
             \common_Utils::toPHPVariableString($this->label) . ',' .
             \common_Utils::toPHPVariableString($this->destination) .

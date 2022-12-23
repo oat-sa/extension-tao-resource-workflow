@@ -100,7 +100,8 @@ class ResourceWorkflowService extends ConfigurableService
         $state = $this->getWfModel()->getInitialState($resource);
         if (!is_null($state)) {
             $resource->setPropertyValue(
-                $this->getProperty(ResourceWorkflowService::PROPERTY_STATE), $this->getStateUri($state)
+                $this->getProperty(ResourceWorkflowService::PROPERTY_STATE),
+                $this->getStateUri($state)
             );
         }
     }
