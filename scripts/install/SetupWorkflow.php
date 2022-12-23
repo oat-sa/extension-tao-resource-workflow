@@ -31,6 +31,7 @@ use oat\generis\model\data\permission\PermissionInterface;
 /**
  * Setup permision provider and resource creation event
  */
+
 class SetupWorkflow extends InstallAction
 {
     /**
@@ -44,8 +45,8 @@ class SetupWorkflow extends InstallAction
         $toRegister = $impl;
 
         $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
-        if(!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
-            if($currentService instanceof IntersectionUnionSupported) {
+        if (!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
+            if ($currentService instanceof IntersectionUnionSupported) {
                 $toRegister = $currentService->add($impl);
             } else {
                 $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, $impl]]);
@@ -57,4 +58,3 @@ class SetupWorkflow extends InstallAction
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
     }
 }
-

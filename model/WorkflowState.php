@@ -21,6 +21,7 @@
 namespace oat\taoResourceWorkflow\model;
 
 use oat\oatbox\user\User;
+
 interface WorkflowState
 {
     /**
@@ -29,7 +30,7 @@ interface WorkflowState
      * @return string
      */
     public function getId();
-    
+
     /**
      * Label to represent the state
      *

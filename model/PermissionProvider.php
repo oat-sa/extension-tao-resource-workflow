@@ -29,7 +29,7 @@ use oat\taoResourceWorkflow\model\wfmodel\StateObject;
 
 /**
  * Simple permissible Permission model
- * 
+ *
  * does not require privileges
  * does not grant privileges
  *
@@ -144,4 +144,3 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
         return $state;
     }
 }
-

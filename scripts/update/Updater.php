@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,6 @@ use oat\taoResourceWorkflow\model\ResourceWorkflowService;
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
-
     /**
      * Resource Workflow updater
      */
@@ -41,13 +41,15 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('0.1', '1.0.1');
 
         if ($this->isVersion('1.0.1')) {
-
             $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
-            if(!$currentService instanceof PermissionProvider && !$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
-                if($currentService instanceof IntersectionUnionSupported) {
+            if (!$currentService instanceof PermissionProvider
+                && !$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
+                if ($currentService instanceof IntersectionUnionSupported) {
                     $toRegister = $currentService->add(new PermissionProvider());
                 } else {
-                    $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, new PermissionProvider()]]);
+                    $toRegister = new IntersectionUnionSupported(
+                        ['inner' => [$currentService, new PermissionProvider()]]
+                    );
                 }
                 $this->getServiceManager()->register(PermissionProvider::SERVICE_ID, $toRegister);
             }

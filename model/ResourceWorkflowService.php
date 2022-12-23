@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
  */
+
 namespace oat\taoResourceWorkflow\model;
 
 use oat\oatbox\service\ConfigurableService;
@@ -98,7 +99,9 @@ class ResourceWorkflowService extends ConfigurableService
         $resource = $event->getResource();
         $state = $this->getWfModel()->getInitialState($resource);
         if (!is_null($state)) {
-            $resource->setPropertyValue($this->getProperty(ResourceWorkflowService::PROPERTY_STATE), $this->getStateUri($state));
+            $resource->setPropertyValue(
+                $this->getProperty(ResourceWorkflowService::PROPERTY_STATE), $this->getStateUri($state)
+            );
         }
     }
 
@@ -114,7 +117,11 @@ class ResourceWorkflowService extends ConfigurableService
             $stateResources = $statesClass->searchInstances(
                 [
                     self::PROPERTY_STATE_ID => $state->getId()
-                ], ['like' => false, 'recursive' => true]
+                ],
+                [
+                    'like' => false,
+                    'recursive' => true
+                ]
             );
 
             if (empty($stateResources)) {
@@ -134,7 +141,11 @@ class ResourceWorkflowService extends ConfigurableService
             $resourcesWithLegacyStateId = $taoObjectClass->searchInstances(
                 [
                 self::PROPERTY_STATE => $state->getId(),
-                ], ['like' => false, 'recursive' => true]
+                ],
+                [
+                    'like' => false,
+                    'recursive' => true
+                ]
             );
             foreach ($resourcesWithLegacyStateId as $resourceWithLegacyStateId) {
                 $resourceWithLegacyStateId->editPropertyValues($resourceStateProp, $stateResource->getUri());

@@ -135,7 +135,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
         foreach ($jsonObject->states as $id => $stateModel) {
             $transitions = array();
             foreach ($stateModel->transitions as $transitionModel) {
-                $tid = $id.'-'.count($transitions);
+                $tid = $id . '-' . count($transitions);
                 $transitions[] = new TransitionObject($tid, $transitionModel->label, $transitionModel->state);
             }
             $state = new StateObject($id, $stateModel->label, $stateModel->read, $stateModel->write, $transitions);
