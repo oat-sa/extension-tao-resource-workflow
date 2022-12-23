@@ -76,7 +76,6 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
         $stateCache = array();
         foreach ($stateIds as $stateId) {
             if (!empty($stateId)) {
-                //$stateCache[$stateId] = $wfmodel->getState($stateId);
                 $state = $wfmodel->getState($stateId);
                 $stateWithRoles = $this->addAtomicRoles($state);
                 $stateCache[$stateId] = $stateWithRoles;
@@ -108,12 +107,12 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
     {
         $extensionManager = common_ext_ExtensionsManager::singleton();
 
-        $this->setOption(
+        /*$this->setOption(
             self::OPTION_EXTENSIONS_WITH_ROLES,
             [
                 'taoItems'
             ]
-        );
+        );*/
 
         foreach ($this->getOption(self::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
             $manifest = $extensionManager->getExtensionById($extensionName)->getManifest();
