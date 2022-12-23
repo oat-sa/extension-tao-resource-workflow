@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA
- *
  */
 
 declare(strict_types=1);
@@ -65,6 +64,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
 
     /**
      * (non-PHPdoc)
+     *
      * @see \oat\taoResourceWorkflow\model\WorkflowModel::getState()
      */
     public function getState($stateId)
@@ -88,6 +88,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
 
     /**
      * (non-PHPdoc)
+     *
      * @see \oat\taoResourceWorkflow\model\WorkflowModel::getTransition()
      */
     public function getTransition($transitionId)
@@ -120,7 +121,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
     /**
      * Build a workflow model from a json representation
      *
-     * @param string $json
+     * @param  string $json
      * @return JsonWorkflow
      */
     public static function fromJson($json)

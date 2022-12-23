@@ -47,10 +47,10 @@ return array(
         '/taoResourceWorkflow' => 'oat\\taoResourceWorkflow\\controller'
     ),
     'constants' => array(
-        # views directory
+        // views directory
         "DIR_VIEWS" => __DIR__ .DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
 
-        #BASE URL (usually the domain root)
+        // BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'taoResourceWorkflow/',
     )
 );

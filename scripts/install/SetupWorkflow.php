@@ -15,8 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\taoResourceWorkflow\scripts\install;
@@ -46,8 +44,8 @@ class SetupWorkflow extends InstallAction
         $toRegister = $impl;
 
         $currentService = $this->getServiceManager()->get(PermissionProvider::SERVICE_ID);
-        if(!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess){
-            if($currentService instanceof IntersectionUnionSupported){
+        if(!$currentService instanceof FreeAccess && !$currentService instanceof NoAccess) {
+            if($currentService instanceof IntersectionUnionSupported) {
                 $toRegister = $currentService->add($impl);
             } else {
                 $toRegister = new IntersectionUnionSupported(['inner' => [$currentService, $impl]]);

@@ -25,12 +25,12 @@ use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 /**
  * Sample controller
  *
- * @author Open Assessment Technologies SA
+ * @author  Open Assessment Technologies SA
  * @package taoResourceWorkflow
  * @license GPL-2.0
- *
  */
-class Transition extends \tao_actions_CommonModule {
+class Transition extends \tao_actions_CommonModule
+{
 
     use OntologyAwareTrait;
 
@@ -39,13 +39,16 @@ class Transition extends \tao_actions_CommonModule {
      *
      * @requiresRight resource WRITE
      */
-    public function execute() {
+    public function execute()
+    {
         $resource = $this->getResource($this->getRequestParameter('resource'));
         $transitionId = $this->getRequestParameter('transition');
         $workflowService = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
         $success = $workflowService->executeTransition($resource, $transitionId);
-        return $this->returnJson([
+        return $this->returnJson(
+            [
             'success' => $success
-        ]);
+            ]
+        );
     }
 }

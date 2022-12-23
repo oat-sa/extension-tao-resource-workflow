@@ -41,9 +41,11 @@ class PermissionProvider extends ConfigurableService
 
     /**
      * (non-PHPdoc)
+     *
      * @see \oat\generis\model\data\PermissionInterface::getPermissions()
      */
-    public function getPermissions(User $user, array $resourceIds) {
+    public function getPermissions(User $user, array $resourceIds)
+    {
 
         $roleIds = $user->getRoles();
         if (in_array(TaoRoles::SYSTEM_ADMINISTRATOR, $roleIds)) {
@@ -67,7 +69,8 @@ class PermissionProvider extends ConfigurableService
         return $rights;
     }
 
-    protected function getStateObjects($stateIds) {
+    protected function getStateObjects($stateIds)
+    {
         $wfmodel = $this->getServiceManager()->get(WorkflowModel::SERVICE_ID);
         $stateCache = array();
         foreach ($stateIds as $stateId) {
@@ -83,16 +86,20 @@ class PermissionProvider extends ConfigurableService
 
     /**
      * (non-PHPdoc)
+     *
      * @see \oat\generis\model\data\PermissionInterface::onResourceCreated()
      */
-    public function onResourceCreated(\core_kernel_classes_Resource $resource) {
+    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    {
     }
 
     /**
      * (non-PHPdoc)
+     *
      * @see \oat\generis\model\data\permission\PermissionInterface::getSupportedRights()
      */
-    public function getSupportedRights() {
+    public function getSupportedRights()
+    {
         return array('WRITE', 'READ');
     }
 
@@ -100,9 +107,11 @@ class PermissionProvider extends ConfigurableService
     {
         $extensionManager = common_ext_ExtensionsManager::singleton();
 
-        $this->setOption(self::OPTION_EXTENSIONS_WITH_ROLES, [
+        $this->setOption(
+            self::OPTION_EXTENSIONS_WITH_ROLES, [
             'taoItems'
-        ]);
+            ]
+        );
 
         foreach ($this->getOption(self::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
             $manifest = $extensionManager->getExtensionById($extensionName)->getManifest();

@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
  */
 namespace oat\taoResourceWorkflow\model;
 
@@ -24,12 +23,14 @@ interface WorkflowState
 {
     /**
      * Unique identifier of the state
+     *
      * @return string
      */
     public function getId();
     
     /**
      * Label to represent the state
+     *
      * @return string
      */
     public function getLabel();
@@ -45,7 +46,7 @@ interface WorkflowState
      * Returns the rights the user has to resources that are
      * in the current state
      *
-     * @param User $user
+     * @param  User $user
      * @return string[] right ids
      */
     public function getAccessRights(User $user);

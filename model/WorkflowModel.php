@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 declare(strict_types=1);
@@ -30,7 +29,7 @@ interface WorkflowModel
     /**
      * Returns the state with the given id
      *
-     * @param string $stateId
+     * @param  string $stateId
      * @return WorkflowState
      */
     public function getState($stateId);
@@ -50,7 +49,7 @@ interface WorkflowModel
     /**
      * Returns the transition with the given id
      *
-     * @param string $transitionId
+     * @param  string $transitionId
      * @return WorkflowTransition
      */
     public function getTransition($transitionId);
@@ -59,7 +58,7 @@ interface WorkflowModel
      * Returns the initial state a newly created resource should be put in.
      * Will return NULL if none is applicable
      *
-     * @param \core_kernel_classes_Resource $resource
+     * @param  \core_kernel_classes_Resource $resource
      * @return WorkflowState
      */
     public function getInitialState(\core_kernel_classes_Resource $resource);

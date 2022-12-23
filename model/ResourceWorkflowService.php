@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA
- *
  */
 namespace oat\taoResourceWorkflow\model;
 
@@ -45,7 +44,7 @@ class ResourceWorkflowService extends ConfigurableService
     protected $stateUris = [];
 
     /**
-     * @param array $resourceIds
+     * @param  array $resourceIds
      * @return array
      * @throws \core_kernel_persistence_Exception
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
@@ -110,14 +109,18 @@ class ResourceWorkflowService extends ConfigurableService
         $language = $this->getWfModel()->getLanguage();
 
         foreach ($states as $state) {
-            $stateResources = $statesClass->searchInstances([
+            $stateResources = $statesClass->searchInstances(
+                [
                 self::PROPERTY_STATE_ID => $state->getId()
-            ], ['like' => false, 'recursive' => true]);
+                ], ['like' => false, 'recursive' => true]
+            );
 
             if (empty($stateResources)) {
-                $stateResource = $statesClass->createInstanceWithProperties([
+                $stateResource = $statesClass->createInstanceWithProperties(
+                    [
                     self::PROPERTY_STATE_ID => $state->getId(),
-                ]);
+                    ]
+                );
             } else {
                 $stateResource = reset($stateResources);
             }
@@ -126,9 +129,11 @@ class ResourceWorkflowService extends ConfigurableService
             $stateResource->removePropertyValueByLg($labelProperty, $language);
             $stateResource->setPropertyValueByLg($labelProperty, $state->getLabel(), $language);
 
-            $resourcesWithLegacyStateId = $taoObjectClass->searchInstances([
+            $resourcesWithLegacyStateId = $taoObjectClass->searchInstances(
+                [
                 self::PROPERTY_STATE => $state->getId(),
-            ], ['like' => false, 'recursive' => true]);
+                ], ['like' => false, 'recursive' => true]
+            );
             foreach ($resourcesWithLegacyStateId as $resourceWithLegacyStateId) {
                 $resourceWithLegacyStateId->editPropertyValues($resourceStateProp, $stateResource->getUri());
             }
@@ -136,7 +141,7 @@ class ResourceWorkflowService extends ConfigurableService
     }
 
     /**
-     * @param \core_kernel_classes_Resource $stateResource
+     * @param  \core_kernel_classes_Resource $stateResource
      * @return WorkflowState
      * @throws \core_kernel_persistence_Exception
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
@@ -151,15 +156,17 @@ class ResourceWorkflowService extends ConfigurableService
     }
 
     /**
-     * @param WorkflowState $state
+     * @param  WorkflowState $state
      * @return string
      */
     protected function getStateUri(WorkflowState $state)
     {
         if (!isset($this->stateUris[$state->getId()])) {
-            $stateResources = $this->getClass(self::CLASS_STATE)->searchInstances([
+            $stateResources = $this->getClass(self::CLASS_STATE)->searchInstances(
+                [
                 self::PROPERTY_STATE_ID => $state->getId()
-            ], ['like' => false, 'recursive' => true]);
+                ], ['like' => false, 'recursive' => true]
+            );
             if (empty($stateResources)) {
                 $this->stateUris[$state->getId()] = $state->getId();
             } else {

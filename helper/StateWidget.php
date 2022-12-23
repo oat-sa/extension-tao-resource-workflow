@@ -102,6 +102,7 @@ class StateWidget extends tao_helpers_form_FormElement
 
     /**
      * Added to prevent warnings, value is not realy used to store state
+     *
      * @see tao_helpers_form_FormElement::getValue()
      */
     public function getValue()

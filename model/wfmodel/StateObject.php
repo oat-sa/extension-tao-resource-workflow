@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
  */
 namespace oat\taoResourceWorkflow\model\wfmodel;
 
@@ -82,7 +81,8 @@ class StateObject implements WorkflowState, PhpSerializable
         return $this->writeRoles;
     }
 
-    public function __toPhpCode() {
+    public function __toPhpCode()
+    {
         return 'new '.get_class($this).'('.
             \common_Utils::toPHPVariableString($this->id).','.
             \common_Utils::toPHPVariableString($this->label).','.

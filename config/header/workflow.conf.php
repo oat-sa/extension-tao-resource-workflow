@@ -4,5 +4,6 @@
  * does not contain the workflow model
  *
  * Implementatuion by default:
+ *
  * @see oat\taoResourceWorkflow\model\ResourceWorkflowService
  */

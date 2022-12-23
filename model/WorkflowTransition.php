@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
  */
 namespace oat\taoResourceWorkflow\model;
 
@@ -23,12 +22,14 @@ interface WorkflowTransition
 {
     /**
      * Unique identifier of the transition
+     *
      * @return string
      */
     public function getId();
     
     /**
      * Label to represent the transition
+     *
      * @return string
      */
     public function getLabel();
@@ -36,7 +37,7 @@ interface WorkflowTransition
     /**
      * Whenever or not a transition is allowed
      *
-     * @param \core_kernel_classes_Resource $resource
+     * @param  \core_kernel_classes_Resource $resource
      * @return boolean
      */
     public function isAllowedOn(\core_kernel_classes_Resource $resource);

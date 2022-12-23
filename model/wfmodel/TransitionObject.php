@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- * 
  */
 namespace oat\taoResourceWorkflow\model\wfmodel;
 
@@ -49,7 +48,7 @@ class TransitionObject implements WorkflowTransition, PhpSerializable
     
     public function getUrl()
     {
-        return _url('execute','Transition','taoResourceWorkflow', ['transition' => $this->id]);
+        return _url('execute', 'Transition', 'taoResourceWorkflow', ['transition' => $this->id]);
     }
     
     public function isAllowedOn(\core_kernel_classes_Resource $resource)
@@ -62,7 +61,8 @@ class TransitionObject implements WorkflowTransition, PhpSerializable
         return $this->destination;
     }
     
-    public function __toPhpCode() {
+    public function __toPhpCode()
+    {
         return 'new '.get_class($this).'('.
             \common_Utils::toPHPVariableString($this->id).','.
             \common_Utils::toPHPVariableString($this->label).','.
