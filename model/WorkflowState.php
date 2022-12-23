@@ -44,7 +44,7 @@ interface WorkflowState
      * @return WorkflowTransition[]
      */
     public function getTransitions();
-    
+
     /**
      * Returns the rights the user has to resources that are
      * in the current state

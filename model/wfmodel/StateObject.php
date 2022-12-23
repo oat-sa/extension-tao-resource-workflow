@@ -55,7 +55,7 @@ class StateObject implements WorkflowState, PhpSerializable
     {
         return $this->transitions;
     }
-    
+
     public function getAccessRights(User $user)
     {
         $rights = [];

@@ -43,7 +43,7 @@ interface WorkflowTransition
      * @return boolean
      */
     public function isAllowedOn(\core_kernel_classes_Resource $resource);
-    
+
     /**
      * Returns the id of the state the transition
      * transitions to.

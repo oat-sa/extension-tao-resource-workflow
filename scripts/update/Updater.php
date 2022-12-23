@@ -59,7 +59,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('1.1.0');
         }
-      
+
         $this->skip('1.1.0', '1.2.1');
 
         if ($this->isVersion('1.2.1')) {
@@ -69,10 +69,10 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('1.3.0', '1.3.3');
-        
+
         //Updater files are deprecated. Please use migrations.
         //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
-        
+
         $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }
