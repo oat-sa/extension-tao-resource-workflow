@@ -1,4 +1,5 @@
 <?php
+
 use oat\taoResourceWorkflow\model\wfmodel\JsonWorkflow;
 
 return new JsonWorkflow(

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@ namespace oat\taoResourceWorkflow\controller;
 use oat\taoResourceWorkflow\model\WorkflowModel;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
+
 /**
  * Sample controller
  *
@@ -31,7 +33,6 @@ use oat\taoResourceWorkflow\model\ResourceWorkflowService;
  */
 class Transition extends \tao_actions_CommonModule
 {
-
     use OntologyAwareTrait;
 
     /**
@@ -45,6 +46,7 @@ class Transition extends \tao_actions_CommonModule
         $transitionId = $this->getRequestParameter('transition');
         $workflowService = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
         $success = $workflowService->executeTransition($resource, $transitionId);
+
         return $this->returnJson(
             [
             'success' => $success

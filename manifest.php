@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,12 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
+
 use oat\tao\model\user\TaoRoles;
 use oat\taoResourceWorkflow\controller\Transition;
 use oat\taoResourceWorkflow\scripts\install\SetupWorkflow;
 use oat\taoResourceWorkflow\scripts\update\Updater;
+
 /**
  * Generated using taoDevTools 2.18.0
  */
@@ -34,7 +37,10 @@ return array(
     ),
     'install' => array(
         'rdf' => array(
-            __DIR__.DIRECTORY_SEPARATOR.'scripts'.DIRECTORY_SEPARATOR.'ontology'.DIRECTORY_SEPARATOR.'workflow.rdf'
+            __DIR__ . DIRECTORY_SEPARATOR
+            . 'scripts' . DIRECTORY_SEPARATOR
+            . 'ontology' . DIRECTORY_SEPARATOR
+            . 'workflow.rdf'
         ),
         'php' => array(
             SetupWorkflow::class
@@ -48,9 +54,9 @@ return array(
     ),
     'constants' => array(
         // views directory
-        "DIR_VIEWS" => __DIR__ .DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
+        "DIR_VIEWS" => __DIR__  . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR,
 
         // BASE URL (usually the domain root)
-        'BASE_URL' => ROOT_URL.'taoResourceWorkflow/',
+        'BASE_URL' => ROOT_URL . 'taoResourceWorkflow/',
     )
 );

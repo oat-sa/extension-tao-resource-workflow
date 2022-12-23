@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,6 +32,7 @@ use oat\tao\model\TaoOntology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  */
+
 class ResourceWorkflowService extends ConfigurableService
 {
     use OntologyAwareTrait;
@@ -111,7 +113,7 @@ class ResourceWorkflowService extends ConfigurableService
         foreach ($states as $state) {
             $stateResources = $statesClass->searchInstances(
                 [
-                self::PROPERTY_STATE_ID => $state->getId()
+                    self::PROPERTY_STATE_ID => $state->getId()
                 ], ['like' => false, 'recursive' => true]
             );
 
@@ -164,8 +166,12 @@ class ResourceWorkflowService extends ConfigurableService
         if (!isset($this->stateUris[$state->getId()])) {
             $stateResources = $this->getClass(self::CLASS_STATE)->searchInstances(
                 [
-                self::PROPERTY_STATE_ID => $state->getId()
-                ], ['like' => false, 'recursive' => true]
+                    self::PROPERTY_STATE_ID => $state->getId()
+                ],
+                [
+                    'like' => false,
+                    'recursive' => true
+                ]
             );
             if (empty($stateResources)) {
                 $this->stateUris[$state->getId()] = $state->getId();
