@@ -34,7 +34,8 @@ final class Version202212231238073096_taoResourceWorkflow extends AbstractMigrat
     public function down(Schema $schema): void
     {
         $service = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
-        $optionsExtensionWithRoles = [];
+        $optionsExtensionWithRoles = $service->getOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES);
+        unset($optionsExtensionWithRoles[array_flip($optionsExtensionWithRoles)['taoItems']]);
 
         $service->setOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES, $optionsExtensionWithRoles);
         $this->getServiceManager()->register(ResourceWorkflowService::SERVICE_ID, $service);
