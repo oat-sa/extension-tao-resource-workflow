@@ -39,7 +39,7 @@ class ResourceWorkflowService extends ConfigurableService
     use OntologyAwareTrait;
 
     public const SERVICE_ID = 'taoResourceWorkflow/workflow';
-
+    public const OPTION_EXTENSIONS_WITH_ROLES = 'extensions_with_roles';
     public const PROPERTY_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowState';
     public const PROPERTY_STATE_ID = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkflowStateId';
     public const CLASS_STATE = 'http://www.tao.lu/Ontologies/TAO.rdf#ResourceWorkflowStates';

@@ -38,8 +38,6 @@ use oat\taoResourceWorkflow\model\wfmodel\StateObject;
  */
 class PermissionProvider extends ConfigurableService implements PermissionInterface
 {
-    public const OPTION_EXTENSIONS_WITH_ROLES = 'extensions_with_roles';
-
     /**
      * (non-PHPdoc)
      *
@@ -47,7 +45,6 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
      */
     public function getPermissions(User $user, array $resourceIds)
     {
-
         $roleIds = $user->getRoles();
         if (in_array(TaoRoles::SYSTEM_ADMINISTRATOR, $roleIds)) {
             $permissions = array();
@@ -106,15 +103,9 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
     private function addAtomicRoles(StateObject $state): StateObject
     {
         $extensionManager = common_ext_ExtensionsManager::singleton();
+        $workFlowService = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
 
-        /*$this->setOption(
-            self::OPTION_EXTENSIONS_WITH_ROLES,
-            [
-                'taoItems'
-            ]
-        );*/
-
-        foreach ($this->getOption(self::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
+        foreach ($workFlowService->getOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
             $manifest = $extensionManager->getExtensionById($extensionName)->getManifest();
             $includedRoles = $manifest->getIncludedRoles();
             foreach ($includedRoles as $role => $atomicRoles) {
