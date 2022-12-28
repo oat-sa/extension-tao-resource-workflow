@@ -104,33 +104,30 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
     {
         $extensionManager = common_ext_ExtensionsManager::singleton();
         $workFlowService = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
+        $stateReadRoles = $state->getReadRoles();
+        $stateWriteRoles = $state->getWriteRoles();
 
         foreach ($workFlowService->getOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES) as $extensionName) {
             $manifest = $extensionManager->getExtensionById($extensionName)->getManifest();
             $includedRoles = $manifest->getIncludedRoles();
+
             foreach ($includedRoles as $role => $atomicRoles) {
                 if (in_array($role, $state->getReadRoles())) {
-                    $state = new StateObject(
-                        $state->getId(),
-                        $state->getLabel(),
-                        array_merge($state->getReadRoles(), $atomicRoles),
-                        $state->getWriteRoles(),
-                        $state->getTransitions()
-                    );
+                    $stateReadRoles = array_merge($stateReadRoles,$atomicRoles);
                 }
 
                 if (in_array($role, $state->getWriteRoles())) {
-                    $state = new StateObject(
-                        $state->getId(),
-                        $state->getLabel(),
-                        $state->getReadRoles(),
-                        array_merge($state->getWriteRoles(), $atomicRoles),
-                        $state->getTransitions()
-                    );
+                    $stateWriteRoles = array_merge($stateWriteRoles, $atomicRoles);
                 }
             }
         }
 
-        return $state;
+        return new StateObject(
+            $state->getId(),
+            $state->getLabel(),
+            $stateReadRoles,
+            $stateWriteRoles,
+            $state->getTransitions()
+        );
     }
 }
