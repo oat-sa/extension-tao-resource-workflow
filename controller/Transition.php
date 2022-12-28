@@ -49,7 +49,7 @@ class Transition extends \tao_actions_CommonModule
 
         return $this->returnJson(
             [
-            'success' => $success
+                'success' => $success
             ]
         );
     }
