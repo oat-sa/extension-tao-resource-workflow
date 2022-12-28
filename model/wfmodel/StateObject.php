@@ -71,12 +71,12 @@ class StateObject implements WorkflowState, PhpSerializable
 
     public function getReadRoles(): array
     {
-        return $this->readRoles;
+        return is_array($this->readRoles) ? $this->readRoles : [];
     }
 
     public function getWriteRoles(): array
     {
-        return $this->writeRoles;
+        return is_array($this->writeRoles) ? $this->writeRoles : [];
     }
 
     public function __toPhpCode()
