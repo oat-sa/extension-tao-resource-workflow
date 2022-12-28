@@ -100,8 +100,8 @@ class StateWidgetTest extends TestCase
 
         $stateMock->method('getTransitions')->willReturn(
             [
-            $transitionMock,
-            $transitionMock
+                $transitionMock,
+                $transitionMock
             ]
         );
 
