@@ -113,7 +113,7 @@ class PermissionProvider extends ConfigurableService implements PermissionInterf
 
             foreach ($includedRoles as $role => $atomicRoles) {
                 if (in_array($role, $state->getReadRoles())) {
-                    $stateReadRoles = array_merge($stateReadRoles,$atomicRoles);
+                    $stateReadRoles = array_merge($stateReadRoles, $atomicRoles);
                 }
 
                 if (in_array($role, $state->getWriteRoles())) {
