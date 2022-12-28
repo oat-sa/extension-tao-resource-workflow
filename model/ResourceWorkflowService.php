@@ -128,7 +128,7 @@ class ResourceWorkflowService extends ConfigurableService
             if (empty($stateResources)) {
                 $stateResource = $statesClass->createInstanceWithProperties(
                     [
-                    self::PROPERTY_STATE_ID => $state->getId(),
+                        self::PROPERTY_STATE_ID => $state->getId(),
                     ]
                 );
             } else {
@@ -141,7 +141,7 @@ class ResourceWorkflowService extends ConfigurableService
 
             $resourcesWithLegacyStateId = $taoObjectClass->searchInstances(
                 [
-                self::PROPERTY_STATE => $state->getId(),
+                    self::PROPERTY_STATE => $state->getId(),
                 ],
                 [
                     'like' => false,
