@@ -46,14 +46,10 @@ class StateWidgetTest extends TestCase
     private const TRANSITION_ID_1 = 'id_1';
     private const TRANSITION_ID_2 = 'id_2';
 
-    /**
-     * @var JsonWorkflow|MockObject
-     */
+    /** @var JsonWorkflow|MockObject */
     private $workflowModelMock;
 
-    /**
-     * @var ResourceWorkflowService|MockObject
-     */
+    /** @var ResourceWorkflowService|MockObject */
     private $resourceWorkflowServiceMock;
 
     protected function setUp(): void
