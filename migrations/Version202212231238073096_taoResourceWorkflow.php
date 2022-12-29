@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace oat\taoResourceWorkflow\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use oat\generis\model\data\permission\implementation\IntersectionUnionSupported;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoResourceWorkflow\model\PermissionProvider;
 use oat\taoResourceWorkflow\model\ResourceWorkflowService;
 
 /**
