@@ -26,6 +26,7 @@ namespace oat\taoResourceWorkflow\model;
 interface WorkflowModel
 {
     public const SERVICE_ID = 'taoResourceWorkflow/model';
+    public const OPTION_INCLUDED_ROLES = 'includedRoles';
 
     /**
      * Returns the state with the given id
