@@ -23,6 +23,7 @@ final class Version202212231238073096_taoResourceWorkflow extends AbstractMigrat
 
     public function up(Schema $schema): void
     {
+        /** @var ResourceWorkflowService $service */
         $service = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
         $optionsExtensionWithRoles = $service->getOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES);
         $optionsExtensionWithRoles = array_merge($optionsExtensionWithRoles, ['taoItems']);
@@ -33,6 +34,7 @@ final class Version202212231238073096_taoResourceWorkflow extends AbstractMigrat
 
     public function down(Schema $schema): void
     {
+        /** @var ResourceWorkflowService $service */
         $service = $this->getServiceManager()->get(ResourceWorkflowService::SERVICE_ID);
         $optionsExtensionWithRoles = $service->getOption(ResourceWorkflowService::OPTION_EXTENSIONS_WITH_ROLES);
         unset($optionsExtensionWithRoles[array_flip($optionsExtensionWithRoles)['taoItems']]);
