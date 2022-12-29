@@ -187,7 +187,7 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
     {
         return $this->getOption(
             self::OPTION_INCLUDED_ROLES,
-            require __DIR__ . '/../../config/mapping/IncludedRoles.php'
+            require __DIR__ . '/../../config/mapping/includedRoles.php'
         );
     }
 }
