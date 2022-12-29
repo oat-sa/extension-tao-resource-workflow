@@ -26,6 +26,7 @@ namespace oat\taoResourceWorkflow\model\wfmodel;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoResourceWorkflow\model\WorkflowModel;
+use oat\taoResourceWorkflow\model\WorkflowState;
 
 /**
  * A simple workflow, generated based on a json file.
@@ -70,7 +71,8 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
     public function getState($stateId)
     {
         $states = $this->getOption(self::OPTION_STATES);
-        return isset($states[$stateId]) ? $states[$stateId] : null;
+
+        return isset($states[$stateId]) ? $this->addAtomicRoles($states[$stateId]) : null;
     }
 
     /**
@@ -151,5 +153,41 @@ class JsonWorkflow extends ConfigurableService implements WorkflowModel
         }
 
         return new self($options);
+    }
+
+    private function addAtomicRoles(WorkflowState $state): WorkflowState
+    {
+        if (!$state instanceof StateObject) {
+            return $state;
+        }
+
+        $stateReadRoles = $state->getReadRoles();
+        $stateWriteRoles = $state->getWriteRoles();
+
+        foreach ($this->getIncludedRoles() as $role => $atomicRoles) {
+            if (in_array($role, $state->getReadRoles(), true)) {
+                $stateReadRoles = array_merge($stateReadRoles, $atomicRoles);
+            }
+
+            if (in_array($role, $state->getWriteRoles(), true)) {
+                $stateWriteRoles = array_merge($stateWriteRoles, $atomicRoles);
+            }
+        }
+
+        return new StateObject(
+            $state->getId(),
+            $state->getLabel(),
+            $stateReadRoles,
+            $stateWriteRoles,
+            $state->getTransitions()
+        );
+    }
+
+    private function getIncludedRoles(): array
+    {
+        return $this->getOption(
+            self::OPTION_INCLUDED_ROLES,
+            require __DIR__ . '/../../config/mapping/IncludedRoles.php'
+        );
     }
 }
