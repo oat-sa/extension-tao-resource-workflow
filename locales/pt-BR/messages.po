@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.2.0-sprint43\n"
-"PO-Revision-Date: 2017-01-27T13:44:40\n"
+"Project-Id-Version: TAO 2023.05\n"
+"PO-Revision-Date: 2023-04-18T13:40:49\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
@@ -13,6 +13,9 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "%s is not a valid JSON file"
+msgstr ""
+
 msgid "Hello World"
 msgstr ""
 
@@ -20,7 +23,13 @@ msgstr ""
 msgid "Resource Workflow"
 msgstr ""
 
+msgid "Successfully loaded model"
+msgstr ""
+
 #, tao-public
 msgid "Template"
 msgstr "Modelo"
+
+msgid "Usage: LoadWorkflowModel WORKFLOW_JSON"
+msgstr ""
 
