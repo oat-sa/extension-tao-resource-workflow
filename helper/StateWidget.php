@@ -77,7 +77,7 @@ class StateWidget extends tao_helpers_form_FormElement
 
                 $returnValue .= '>' . _dh($transition->getLabel()) . '</a>';
                 $returnValue .= "<script type=\"text/javascript\">
-                    require(['jquery'], function($){
+                    require(['jquery', 'ui/feedback'], function($, feedback){
                         $(\"#" . $id . "\").on('click',function(event) {
                         event.preventDefault();
                         $.ajax({
@@ -88,8 +88,8 @@ class StateWidget extends tao_helpers_form_FormElement
                             success: function(response){
                                 if(response.success) {
                                   $('.tree').trigger('refresh.taotree');
-                                } else {
-                                  // error handling
+                                } else if (response.error && typeof response.error === 'string') {
+                                  feedback().error(response.error);
                                 }
                             }
                         });
